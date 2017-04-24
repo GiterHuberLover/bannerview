@@ -34,7 +34,7 @@ public class BannerView<Item> extends FrameLayout {
     private static final String TAG = BannerView.class.getSimpleName();
 
     public interface ViewFactory<Item> {
-        View create(Item item, ViewGroup container);
+        View create(Item item, int position, ViewGroup container);
     }
 
     public interface TitleAdapter<Item> {
@@ -437,7 +437,7 @@ public class BannerView<Item> extends FrameLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            View inflate = mViewFactory.create(mDataList.get(position), container);
+            View inflate = mViewFactory.create(mDataList.get(position), position, container);
             container.addView(inflate);
             return inflate;
         }

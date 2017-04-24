@@ -50,7 +50,7 @@ dependencies {
 final BannerView banner1 = (BannerView) findViewById(R.id.banner1);
 banner1.setViewFactory(new BannerView.ViewFactory<BannerItem>() {
     @Override
-    public View create(Object o, ViewGroup container) {
+    public View create(Object item, int position, ViewGroup container) {
         // create view
         return null;
     }

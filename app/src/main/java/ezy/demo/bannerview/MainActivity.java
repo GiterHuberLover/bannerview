@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static class BannerViewFactory implements BannerView.ViewFactory<BannerItem> {
         @Override
-        public View create(BannerItem item, ViewGroup container) {
+        public View create(BannerItem item, int position, ViewGroup container) {
             ImageView iv = new ImageView(container.getContext());
             RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA);
             Glide.with(container.getContext().getApplicationContext()).load(item.image).apply(options).into(iv);
