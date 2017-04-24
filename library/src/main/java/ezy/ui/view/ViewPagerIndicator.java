@@ -108,6 +108,7 @@ public class ViewPagerIndicator extends View {
 
     public void setupWithViewPager(ViewPager pager) {
         mItemCount = pager.getAdapter().getCount();
+        pager.removeOnPageChangeListener(onPageChangeListener);
         pager.addOnPageChangeListener(onPageChangeListener);
         requestLayout();
     }

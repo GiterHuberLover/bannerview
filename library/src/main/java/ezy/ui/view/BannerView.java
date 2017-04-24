@@ -61,10 +61,14 @@ public class BannerView<Item> extends FrameLayout {
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("ezy", "running=" + mIsRunning + ",pos=" + mCurrentPosition );
+            Log.e("ezy", "running=" + mIsRunning + ",pos=" + mCurrentPosition);
             if (mIsRunning) {
                 vViewPager.setCurrentItem(mCurrentPosition + 1);
-                postDelayed(mRunnable, mInterval);
+                if (isLoop() || mCurrentPosition + 1 < mDataList.size()) {
+                    postDelayed(mRunnable, mInterval);
+                } else {
+                    mIsRunning = false;
+                }
             }
         }
     };
@@ -224,6 +228,10 @@ public class BannerView<Item> extends FrameLayout {
         this.mIsAuto = isAuto;
     }
 
+    public void setIndicatorVisible(int value) {
+        mIndicatorVisible = value;
+    }
+
     public void setBarVisibleWhenLast(boolean value) {
         this.mBarVisibleWhenLast = value;
     }
@@ -248,9 +256,6 @@ public class BannerView<Item> extends FrameLayout {
         vTitleBar.setVisibility(isTitleVisible ? VISIBLE : INVISIBLE);
     }
 
-    public void setIndicatorVisible(int value) {
-        mIndicatorVisible = value;
-    }
 
     public boolean isLoop() {
         return vViewPager instanceof LoopViewPager;
@@ -280,11 +285,12 @@ public class BannerView<Item> extends FrameLayout {
         mOnPageChangeListener = listener;
     }
 
+
     void initViewPager() {
         vViewPager.setAdapter(mInternalPagerAdapter);
-        vViewPager.setOffscreenPageLimit(mDataList.size());
         vViewPager.removeOnPageChangeListener(mInternalPageListener);
         vViewPager.addOnPageChangeListener(mInternalPageListener);
+        vViewPager.setOffscreenPageLimit(mDataList.size());
         mInternalPagerAdapter.notifyDataSetChanged();
         try {
             if (isLoop()) {
@@ -294,10 +300,9 @@ public class BannerView<Item> extends FrameLayout {
             e.printStackTrace();
         }
     }
-
     void initIndicator() {
-        boolean visible = mIndicatorVisible == VISIBLE_ALWAYS || (mIndicatorVisible == VISIBLE_AUTO && mDataList.size() > 1);
         vIndicator.setupWithViewPager(vViewPager);
+        boolean visible = mIndicatorVisible == VISIBLE_ALWAYS || (mIndicatorVisible == VISIBLE_AUTO && mDataList.size() > 1);
         vIndicator.setVisibility(visible ? VISIBLE : INVISIBLE);
         vIndicator.setPosition(mCurrentPosition);
     }
@@ -335,9 +340,9 @@ public class BannerView<Item> extends FrameLayout {
         if (mCurrentPosition > mDataList.size() - 1) {
             mCurrentPosition = 0;
         }
-
         initViewPager();
         initIndicator();
+
         setCurrentTitle(mCurrentPosition);
         mIsStarted = true;
         update();
@@ -347,8 +352,8 @@ public class BannerView<Item> extends FrameLayout {
         if (!isValid()) {
             return;
         }
-        boolean running = mIsVisible && mIsResumed && mIsStarted && mIsAuto && isLoop() && mDataList.size() > 1 && mCurrentPosition < mDataList
-                .size();
+        boolean running = mIsVisible && mIsResumed && mIsStarted && mIsAuto && mDataList.size() > 1 && (isLoop() || mCurrentPosition + 1 <
+                mDataList.size());
         if (running != mIsRunning) {
             if (running) {
                 postDelayed(mRunnable, mDelay);
@@ -411,7 +416,7 @@ public class BannerView<Item> extends FrameLayout {
         @Override
         public void onPageSelected(int position) {
 
-            Log.e("ezy", "onPageSelected, pos=" + mCurrentPosition );
+            Log.e("ezy", "onPageSelected, pos=" + mCurrentPosition);
             mCurrentPosition = position % mDataList.size();
             setCurrentTitle(mCurrentPosition);
             vBottomBar.setVisibility(mCurrentPosition == mDataList.size() - 1 && !mBarVisibleWhenLast ? GONE : VISIBLE);

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@android:color/white"
+        app:bvIsLoop="false"
         app:bvAspectRatio="0.6666666"
         app:bvIndicatorColor="#cccccc"
         app:bvIndicatorColorSelected="@color/colorAccent"
