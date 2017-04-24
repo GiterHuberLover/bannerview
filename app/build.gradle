@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "ezy.demo.bannerview"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://jitpack.io" }
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:gridlayout-v7:25.+'
+    compile 'com.android.support:design:25.+'
+
+    // network, http
+    def okhttp_version = "3.4.1"
+    def retrofit_version = "2.1.0"
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttp_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
+}
