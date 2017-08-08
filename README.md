@@ -11,7 +11,7 @@ repositories {
     maven { url "https://jitpack.io" }
 } 
 dependencies {
-    compile 'com.github.czy1121:bannerview:1.0.0'
+    compile 'com.github.czy1121:bannerview:1.0.1'
 }
 ```
     

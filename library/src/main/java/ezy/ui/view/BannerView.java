@@ -31,6 +31,7 @@ import ezy.library.bannerview.R;
 
 
 public class BannerView<Item> extends FrameLayout {
+    public static boolean DEBUG = false;
     private static final String TAG = BannerView.class.getSimpleName();
 
     public interface ViewFactory<Item> {
@@ -61,7 +62,9 @@ public class BannerView<Item> extends FrameLayout {
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.e("ezy", "running=" + mIsRunning + ",pos=" + mCurrentPosition);
+            if (DEBUG) {
+                Log.e("ezy", "running=" + mIsRunning + ",pos=" + mCurrentPosition);
+            }
             if (mIsRunning) {
                 vViewPager.setCurrentItem(mCurrentPosition + 1);
                 if (isLoop() || mCurrentPosition + 1 < mDataList.size()) {
@@ -352,8 +355,7 @@ public class BannerView<Item> extends FrameLayout {
         if (!isValid()) {
             return;
         }
-        boolean running = mIsVisible && mIsResumed && mIsStarted && mIsAuto && mDataList.size() > 1 && (isLoop() || mCurrentPosition + 1 <
-                mDataList.size());
+        boolean running = mIsVisible && mIsResumed && mIsStarted && mIsAuto && mDataList.size() > 1 && (isLoop() || mCurrentPosition + 1 < mDataList.size());
         if (running != mIsRunning) {
             if (running) {
                 postDelayed(mRunnable, mDelay);
@@ -362,8 +364,10 @@ public class BannerView<Item> extends FrameLayout {
             }
             mIsRunning = running;
         }
-        Log.e("ezy", "update:running=" + mIsRunning + ",visible=" + mIsVisible + ",started=" + mIsStarted + ",resumed=" + mIsResumed);
-        Log.e("ezy", "update:auto=" + mIsAuto + ",loop=" + isLoop() + ",size=" + mDataList.size() + ",current=" + mCurrentPosition);
+        if (DEBUG) {
+            Log.e("ezy", "update:running=" + mIsRunning + ",visible=" + mIsVisible + ",started=" + mIsStarted + ",resumed=" + mIsResumed);
+            Log.e("ezy", "update:auto=" + mIsAuto + ",loop=" + isLoop() + ",size=" + mDataList.size() + ",current=" + mCurrentPosition);
+        }
     }
 
     @Override
@@ -416,7 +420,9 @@ public class BannerView<Item> extends FrameLayout {
         @Override
         public void onPageSelected(int position) {
 
-            Log.e("ezy", "onPageSelected, pos=" + mCurrentPosition);
+            if (DEBUG) {
+                Log.e("ezy", "onPageSelected, pos=" + mCurrentPosition);
+            }
             mCurrentPosition = position % mDataList.size();
             setCurrentTitle(mCurrentPosition);
             vBottomBar.setVisibility(mCurrentPosition == mDataList.size() - 1 && !mBarVisibleWhenLast ? GONE : VISIBLE);
