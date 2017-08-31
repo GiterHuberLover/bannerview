@@ -79,10 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         banner2.setViewFactory(new BannerViewFactory());
         banner2.setDataList(list);
         banner2.start();
+
      }
 
 
     @Override
     public void onClick(View v) {
+
     }
 }

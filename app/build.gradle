@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "ezy.demo.bannerview"
@@ -23,16 +23,14 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven { url "https://jitpack.io" }
-    maven {
-        url 'http://oss.sonatype.org/content/repositories/snapshots'
-    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.android.support:gridlayout-v7:25.+'
-    compile 'com.android.support:design:25.+'
+    def supportVersion = "25.3.1"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:gridlayout-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
 
     // network, http
     def okhttp_version = "3.4.1"
@@ -43,5 +41,5 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    compile 'com.github.bumptech.glide:glide:4.0.0-SNAPSHOT'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
 }

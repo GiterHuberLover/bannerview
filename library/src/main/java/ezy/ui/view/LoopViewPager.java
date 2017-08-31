@@ -163,13 +163,20 @@ public class LoopViewPager extends ViewPager {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            int realPosition = position;
-            if (mAdapter != null) {
-                realPosition = mAdapter.getRealPosition(position);
-
-                if (positionOffset == 0 && mPreviousOffset == 0 && (position == 0 || position == mAdapter.getCount() - 1)) {
-                    setCurrentItem(realPosition, false);
+            if (mAdapter == null) {
+                mPreviousOffset = positionOffset;
+                if (positionOffset > .5) {
+                    dispatchOnPageScrolled(0, 0, 0);
+                } else {
+                    dispatchOnPageScrolled(position, 0, 0);
                 }
+                return;
+            }
+            int realPosition = mAdapter.getRealPosition(position);
+            int lastPosition = mAdapter.getCount() - 1;
+
+            if (positionOffset == 0 && mPreviousOffset == 0 && lastPosition != 0 && (position == 0 || position == lastPosition)) {
+                setCurrentItem(realPosition, false);
             }
 
             mPreviousOffset = positionOffset;
